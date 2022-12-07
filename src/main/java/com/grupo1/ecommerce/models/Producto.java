@@ -12,7 +12,7 @@ public class Producto {
     @GenericGenerator(strategy = "native",name = "native")
     private Long id;
 
-    private String Nombre;
+    private String nombre;
 
     private int stock;
 
@@ -23,9 +23,8 @@ public class Producto {
     }
 
     public Producto(String nombre, int stock) {
-        Nombre = nombre;
+        this.nombre = nombre;
         this.stock = stock;
-        this.categorias = categorias;
     }
 
     public Long getId() {
@@ -37,11 +36,11 @@ public class Producto {
     }
 
     public String getNombre() {
-        return Nombre;
+        return nombre;
     }
 
     public void setNombre(String nombre) {
-        Nombre = nombre;
+        this.nombre = nombre;
     }
 
     public int getStock() {
