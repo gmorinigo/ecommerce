@@ -3,7 +3,7 @@ package com.grupo1.ecommerce.models;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
-import java.util.List;
+import java.util.Set;
 
 @Entity
 public class Producto {
@@ -17,7 +17,10 @@ public class Producto {
     private int stock;
 
     @OneToMany(mappedBy = "producto", fetch = FetchType.EAGER)
-    private List<CategProducto> categorias;
+    private Set<CategProducto> categorias;
+
+    @OneToMany(mappedBy = "producto", fetch = FetchType.EAGER)
+    private Set<CarritoProducto> carritoProductos;
 
     public Producto() {
     }
@@ -51,11 +54,19 @@ public class Producto {
         this.stock = stock;
     }
 
-    public List<CategProducto> getCategorias() {
+    public Set<CategProducto> getCategorias() {
         return categorias;
     }
 
-    public void setCategorias(List<CategProducto> categorias) {
+    public void setCategorias(Set<CategProducto> categorias) {
         this.categorias = categorias;
+    }
+
+    public Set<CarritoProducto> getCarritoProductos() {
+        return carritoProductos;
+    }
+
+    public void setCarritoProductos(Set<CarritoProducto> carritoProductos) {
+        this.carritoProductos = carritoProductos;
     }
 }

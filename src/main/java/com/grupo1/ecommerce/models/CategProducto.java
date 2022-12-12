@@ -1,5 +1,6 @@
 package com.grupo1.ecommerce.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
@@ -7,7 +8,7 @@ import javax.persistence.*;
 @Entity
 public class CategProducto {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @GenericGenerator(strategy = "native",name = "native")
     private Long id;
 
@@ -35,6 +36,7 @@ public class CategProducto {
         this.id = id;
     }
 
+    @JsonIgnore
     public Categoria getCategoria() {
         return categoria;
     }
@@ -43,6 +45,7 @@ public class CategProducto {
         this.categoria = categoria;
     }
 
+    @JsonIgnore
     public Producto getProducto() {
         return producto;
     }

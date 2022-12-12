@@ -1,11 +1,7 @@
 package com.grupo1.ecommerce;
 
-import com.grupo1.ecommerce.models.CategProducto;
-import com.grupo1.ecommerce.models.Categoria;
-import com.grupo1.ecommerce.models.Producto;
-import com.grupo1.ecommerce.repository.CategProductoRepository;
-import com.grupo1.ecommerce.repository.CategoriaRepository;
-import com.grupo1.ecommerce.repository.ProductoRepository;
+import com.grupo1.ecommerce.models.*;
+import com.grupo1.ecommerce.repository.*;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -22,7 +18,8 @@ public class EcommerceApplication {
 
 	@Bean
 	public CommandLineRunner initData(ProductoRepository productoRepository, CategoriaRepository categoriaRepository,
-									  CategProductoRepository categProductoRepository) {
+									  CategProductoRepository categProductoRepository, CarritoRepository carritoRepository,
+									  CarritoProductoRepository carritoProductoRepository) {
 		return (args) -> {
 			Producto zapatilla = new Producto("Zapatillas Nike", 30);
 			Producto pelota = new Producto("Pelota", 20);
@@ -43,6 +40,15 @@ public class EcommerceApplication {
 			CategProducto heladeraHogar = new CategProducto(hogar,heladera);
 
 			categProductoRepository.saveAll(List.of(zapatillaDeporte,zapatillaIndumentaria,pelotaDeporte,heladeraElectro,heladeraHogar));
+
+			Carrito carrito1 = new Carrito(0);
+			carritoRepository.save(carrito1);
+
+			CarritoProducto carrito1Zapatilla = new CarritoProducto(1,zapatilla,carrito1);
+			CarritoProducto carrito1Pelota = new CarritoProducto(1,pelota,carrito1);
+
+			carritoProductoRepository.saveAll(List.of(carrito1Zapatilla, carrito1Pelota));
+
 		};
 	}
 }
