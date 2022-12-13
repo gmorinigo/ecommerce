@@ -16,6 +16,8 @@ public class Producto {
 
     private int stock;
 
+    private double precio;
+
     @OneToMany(mappedBy = "producto", fetch = FetchType.EAGER)
     private Set<CategProducto> categorias;
 
@@ -68,5 +70,13 @@ public class Producto {
 
     public void setCarritoProductos(Set<CarritoProducto> carritoProductos) {
         this.carritoProductos = carritoProductos;
+    }
+
+    public double getPrecio() {
+        return precio;
+    }
+
+    public void setPrecio(double precio) {
+        this.precio = precio;
     }
 }
