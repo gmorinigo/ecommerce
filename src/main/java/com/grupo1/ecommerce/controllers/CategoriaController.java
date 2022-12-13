@@ -15,8 +15,8 @@ public class CategoriaController {
     @Autowired
     CategoriaServiceImpl categoriaService;
 
-    @GetMapping(/categorias)
+    @GetMapping("/categorias")
     public List<CategoriaDTO> getCategorias (){
-        return null
+        return null;
     }
 }
