@@ -18,6 +18,9 @@ public class Carrito {
     @OneToMany(mappedBy = "carrito",fetch = FetchType.EAGER)
     private Set<CarritoProducto> carritosProducto;
 
+    @OneToOne(cascade = CascadeType.ALL)
+    private Client ownerCarrito;
+
     public Carrito() {
     }
 
@@ -47,5 +50,13 @@ public class Carrito {
 
     public void setCarritosProducto(Set<CarritoProducto> carritosProducto) {
         this.carritosProducto = carritosProducto;
+    }
+
+    public Client getOwnerCarrito() {
+        return ownerCarrito;
+    }
+
+    public void setOwnerCarrito(Client ownerCarrito) {
+        this.ownerCarrito = ownerCarrito;
     }
 }

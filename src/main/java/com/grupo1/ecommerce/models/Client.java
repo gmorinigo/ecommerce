@@ -17,8 +17,10 @@ public class Client {
     private String LastName;
     private String email;
     private String password;
+
     @OneToOne(mappedBy = "ownerCarrito", cascade = CascadeType.ALL)
     private Carrito carrito;
+
     @OneToMany(mappedBy = "ownerTicket", fetch = FetchType.EAGER)
     private Set<Ticket> tickets = new HashSet<>();
 

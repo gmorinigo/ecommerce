@@ -23,9 +23,11 @@ public class Ticket {
     private Integer cvv;
     private Integer anioVencimiento;
     private Integer mesVencimiento;
+
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "owner_id")
-    private Client owner;
+    private Client ownerTicket;
+
     @OneToMany(mappedBy = "ticket", fetch = FetchType.EAGER)
     Set<TicketProd> productos = new HashSet<>();
 
@@ -42,7 +44,7 @@ public class Ticket {
         this.cvv = cvv;
         this.anioVencimiento = anioVencimiento;
         this.mesVencimiento = mesVencimiento;
-        this.owner = owner;
+        this.ownerTicket = owner;
     }
 
     public Long getId() {
@@ -125,12 +127,12 @@ public class Ticket {
         this.mesVencimiento = mesVencimiento;
     }
 
-    public Client getOwner() {
-        return owner;
+    public Client getOwnerTicket() {
+        return ownerTicket;
     }
 
-    public void setOwner(Client owner) {
-        this.owner = owner;
+    public void setOwnerTicket(Client ownerTicket) {
+        this.ownerTicket = ownerTicket;
     }
 
     public Set<TicketProd> getProductos() {
