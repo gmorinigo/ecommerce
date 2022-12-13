@@ -12,6 +12,8 @@ public class ProductoDTO {
 
     private int stock;
 
+    private Integer descuento;
+
     private double precio;
 
     private List<CategoriaDTO> categorias;
@@ -20,9 +22,10 @@ public class ProductoDTO {
         this.id = producto.getId();
         this.nombre = producto.getNombre();
         this.stock = producto.getStock();
-        this.precio = producto.getPrecio();
         this.categorias = producto.getCategorias().stream().map(categProducto -> new CategoriaDTO(categProducto.getCategoria()))
                 .collect(Collectors.toList());
+        this.descuento = producto.getDescuento();
+        this.precio = producto.getPrecio();
     }
 
     public Long getId() {
@@ -55,6 +58,14 @@ public class ProductoDTO {
 
     public void setCategorias(List<CategoriaDTO> categorias) {
         this.categorias = categorias;
+    }
+
+    public Integer getDescuento() {
+        return descuento;
+    }
+
+    public void setDescuento(Integer descuento) {
+        this.descuento = descuento;
     }
 
     public double getPrecio() {
