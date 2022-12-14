@@ -1,11 +1,14 @@
 package com.grupo1.ecommerce.controllers;
 
 import com.grupo1.ecommerce.dtos.CategoriaDTO;
-import com.grupo1.ecommerce.services.impl.CategoriaServiceImpl;
+import com.grupo1.ecommerce.dtos.DeleteCategoriaDTO;
+import com.grupo1.ecommerce.dtos.InsertCategoriaDTO;
+import com.grupo1.ecommerce.dtos.UpdateCategoriaDTO;
+import com.grupo1.ecommerce.services.ICategoriaService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -13,10 +16,37 @@ import java.util.List;
 @RequestMapping("/api")
 public class CategoriaController {
     @Autowired
-    CategoriaServiceImpl categoriaService;
+    ICategoriaService categoriaService;
 
     @GetMapping("/categorias")
     public List<CategoriaDTO> getCategorias (){
-        return null;
+        return categoriaService.getCategoriasDTO();
     }
+
+    @PostMapping("/categorias")
+    public ResponseEntity<Object> insertCategoria (@RequestBody InsertCategoriaDTO insertCategoriaDTO){
+        if (insertCategoriaDTO.getNombre().isEmpty())
+            return new ResponseEntity<>("Debe informar nombre de la categoria", HttpStatus.FORBIDDEN);
+
+        categoriaService.insertCategoria(insertCategoriaDTO);
+
+        return new ResponseEntity<>(HttpStatus.CREATED);
+    }
+
+    @PatchMapping("/categorias")
+    public ResponseEntity<Object> updateCategoria (@RequestBody UpdateCategoriaDTO updateCategoriaDTO){
+        if (updateCategoriaDTO.getId() == 0 || updateCategoriaDTO.getNombre().isEmpty())
+            return new ResponseEntity<>("Datos informados insuficientes", HttpStatus.FORBIDDEN);
+
+        return categoriaService.updateCategoria(updateCategoriaDTO);
+    }
+
+    @DeleteMapping("/categorias")
+    public ResponseEntity<Object> deleteCategoria (@RequestBody DeleteCategoriaDTO deleteCategoriaDTO){
+        if (deleteCategoriaDTO.getId() == 0 || deleteCategoriaDTO.getId() == null)
+            return new ResponseEntity<>("Debe informar el id de la categoria", HttpStatus.FORBIDDEN);
+
+        return categoriaService.deleteCategoria(deleteCategoriaDTO);
+    }
+
 }
