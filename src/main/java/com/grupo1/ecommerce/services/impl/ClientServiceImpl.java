@@ -6,17 +6,18 @@ import com.grupo1.ecommerce.repository.ClientRepository;
 import com.grupo1.ecommerce.services.ClientService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.stream.Collectors;
-
+@Service
 public class ClientServiceImpl implements ClientService {
 
     @Autowired
-    private ClientRepository clientRepository;
+    ClientRepository clientRepository;
 
     @Autowired
-    private PasswordEncoder passwordEncoder;
+    PasswordEncoder passwordEncoder;
 
     public List<ClientDTO> findAll(){
         return clientRepository.findAll().stream().map(client -> new ClientDTO(client)).collect(Collectors.toList());
