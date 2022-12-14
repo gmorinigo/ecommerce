@@ -17,7 +17,7 @@ import java.util.List;
 public class ClientController {
 
     @Autowired
-    private ClientService clientService;
+    ClientService clientService;
 
     @GetMapping("/clients")
     public List<ClientDTO> getClients() {
