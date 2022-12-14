@@ -18,7 +18,7 @@ public class Producto {
     private int stock;
 
     private Integer descuento;
-    
+
     private double precio;
 
     @OneToMany(mappedBy = "producto", fetch = FetchType.EAGER)
