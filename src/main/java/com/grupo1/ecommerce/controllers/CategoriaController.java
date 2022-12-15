@@ -1,9 +1,6 @@
 package com.grupo1.ecommerce.controllers;
 
-import com.grupo1.ecommerce.dtos.CategoriaDTO;
-import com.grupo1.ecommerce.dtos.DeleteCategoriaDTO;
-import com.grupo1.ecommerce.dtos.InsertCategoriaDTO;
-import com.grupo1.ecommerce.dtos.UpdateCategoriaDTO;
+import com.grupo1.ecommerce.dtos.*;
 import com.grupo1.ecommerce.services.ICategoriaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -49,4 +46,11 @@ public class CategoriaController {
         return categoriaService.deleteCategoria(deleteCategoriaDTO);
     }
 
+    @PostMapping("/categorias/addproducto")
+    public ResponseEntity<Object> addProductoEnCategoria (@RequestBody InsertProductoEnCategoriaDTO insertCategoriaDTO){
+        if (insertCategoriaDTO.hasValidData())
+            return new ResponseEntity<>("Debe informar nombre de la categoria", HttpStatus.FORBIDDEN);
+
+        return (categoriaService.addProductoEnCategoria(insertCategoriaDTO));
+    }
 }

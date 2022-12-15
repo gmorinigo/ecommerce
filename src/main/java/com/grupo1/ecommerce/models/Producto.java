@@ -1,5 +1,6 @@
 package com.grupo1.ecommerce.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
@@ -72,6 +73,7 @@ public class Producto {
         this.categorias = categorias;
     }
 
+    @JsonIgnore
     public Set<CarritoProducto> getCarritoProductos() {
         return carritoProductos;
     }
@@ -80,6 +82,7 @@ public class Producto {
         this.carritoProductos = carritoProductos;
     }
 
+    @JsonIgnore
     public Set<TicketProd> getTickets() { return tickets; }
 
     public double getPrecio() {

@@ -8,7 +8,7 @@ import java.util.List;
 @Entity
 public class Categoria {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @GenericGenerator(strategy = "native",name = "native")
     private Long id;
 
