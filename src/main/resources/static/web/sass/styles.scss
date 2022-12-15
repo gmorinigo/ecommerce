@@ -1,0 +1,53 @@
+@use 'initial';
+@use 'variables';
+@use 'header';
+@use 'navbar';
+@use 'modal-navbar';
+@use 'product';
+@use 'input';
+@use 'modal-cart';
+@use 'modal-perfil';
+
+.main-container{
+    width: 375px;
+    margin: auto;
+    position: relative;
+    @media (min-width: 1115px){
+        width: 1115px;
+    }
+}
+
+.content{
+    @media (min-width: 1115px){
+        padding: 24px;
+        display: flex;
+        align-items: center;
+    }
+}
+
+.subtitle {
+    display: inline;
+}
+
+.menu-logo{
+    width: 30px;
+    height: 30px;
+}
+
+.welcome{
+    background: linear-gradient(45deg,#09bcee,#ffffff);
+}
+
+.welcome-logo{
+    width: 60%;
+}
+
+.index-body{
+//    background-image: url(../img/avila.jpg);
+    background-size: cover;
+    background-attachment: fixed;
+}
+
+.index-container{
+    margin-top: 10%;
+}

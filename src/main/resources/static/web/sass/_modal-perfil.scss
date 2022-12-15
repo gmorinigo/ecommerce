@@ -1,0 +1,40 @@
+@use 'variables' as v;
+@use 'mixins';
+
+.modal-perfil{
+    width: 150px;
+    position: absolute;
+    top: 95px;
+    right: 6px;
+    box-shadow: 3px 3px 10px v.$Grayish-blue;
+    background-color: v.$White;
+    border-radius: 8px;
+    display: none;
+    &__items{
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        height: 100px;
+        list-style: none;
+        margin-top: 30px;
+        margin-bottom: 30px;
+    }
+    &__link{
+        display: block;
+        text-decoration: none;
+        color: v.$Grayish-blue;
+        padding-left: 30px;
+        font-weight: 700;
+        font-size: 1.1em;
+        margin-left: 10px;
+        &--logeado{
+            display: none;
+        }
+        &:hover{
+            border-left: 5px solid v.$Orange;
+        }
+    }
+    @media (min-width: 1115px){
+        top: 120px;
+    }
+}

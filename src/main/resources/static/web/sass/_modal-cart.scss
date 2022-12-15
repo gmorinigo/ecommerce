@@ -1,0 +1,67 @@
+@use 'variables' as v;
+@use 'mixins';
+
+.modal-cart{
+    width: 360px;
+    position: absolute;
+    top: 95px;
+    right: 6px;
+    box-shadow: 3px 3px 10px v.$Grayish-blue;
+    background-color: v.$White;
+    border-radius: 8px;
+    display: none;
+    &__title{
+        margin: 24px;
+        font-size: 1em;
+        font-weight: 700;
+        border-bottom: 1px solid v.$Grayish-blue;
+        display: flex;
+        align-items: center;
+        height: 60px;
+    }
+    &__details-container{
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        height: 70px;
+    }
+    &__logo{
+        width: 60px;
+        margin-left: 24px;
+    }
+    &__price{
+        font-family: v.$Font;
+        color: v.$Grayish-blue;
+        font-size: 0.9em;
+    }
+    &__price span{
+        font-weight: 700;
+        color: v.$Black;
+        margin-left: 10px;
+    }
+    &__delete{
+        width: 15px;
+        margin-right: 24px;
+        &:hover{
+            cursor: pointer;
+        }
+    }
+    &__total{
+        margin: 24px;
+        font-size: 1em;
+        font-weight: 700;
+        border-top: 1px solid v.$Grayish-blue;
+        text-align: right;
+        height: 20px;
+    }
+    &__checkout{
+        @include mixins.button;
+        width: 300px;
+        margin-top: 10px;
+        margin-left: 30px;
+        margin-bottom: 30px;
+    }
+    @media (min-width: 1115px){
+        top: 120px;
+    }
+}

@@ -1,0 +1,67 @@
+@use 'variables' as v;
+@use 'mixins';
+
+.product{
+    width: 100%;
+    &__name{
+        background-color: v.$Orange;
+        text-align: center;
+        color: v.$White;
+        margin-top: 20px;
+        @media (min-width: 1115px){
+            background-color: v.$White;
+            color: v.$Black;
+        }
+    }
+    &__img{
+        display: block;
+        margin: auto;
+        height: 300px;
+    }
+    &__prices{
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        margin: 24px;  
+        @media (min-width: 1115px){
+            flex-direction: row;
+            align-items: center;
+        }
+    }
+    &__now{
+        font-size: 1.8em;
+        font-weight: 500;
+    }
+    &__discount{
+        font-size: 0.7em;
+        background-color: v.$Pale-orange;
+        color: v.$Orange;
+        padding: 4px;
+        border: 4px;
+        margin-right: 30px;
+    }
+    &__before{
+        font-weight: 700;
+        text-decoration: line-through;
+        color: v.$Grayish-blue;
+    }
+    &__button{
+        @include mixins.button;
+        margin: 15px;
+        width: 90.5%;
+
+    }
+    &__quantity{
+        @media (min-width: 1115px){
+            flex-direction: column;
+        }
+    }
+    @media (min-width: 1115px){
+        width: 350px;
+        border-radius: 8px;
+        display: inline-block;
+        &:hover{
+            border: 2px solid v.$Orange;
+        }
+    }
+}
