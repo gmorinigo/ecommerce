@@ -33,9 +33,11 @@ public class Producto {
     public Producto() {
     }
 
-    public Producto(String nombre, int stock) {
+    public Producto(String nombre, int stock, int descuento, double precio) {
         this.nombre = nombre;
         this.stock = stock;
+        this.descuento = descuento;
+        this.precio = precio;
     }
 
     public Long getId() {
@@ -78,10 +80,7 @@ public class Producto {
         this.carritoProductos = carritoProductos;
     }
 
-    public Set<TicketProd> getTickets() {
-        return tickets;
-
-    }
+    public Set<TicketProd> getTickets() { return tickets; }
 
     public double getPrecio() {
         return precio;

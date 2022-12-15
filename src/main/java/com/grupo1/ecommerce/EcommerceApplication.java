@@ -26,9 +26,9 @@ public class EcommerceApplication {
 									  CategProductoRepository categProductoRepository, CarritoRepository carritoRepository,
 									  CarritoProductoRepository carritoProductoRepository, ClientRepository clientRepository) {
 		return (args) -> {
-			Producto zapatilla = new Producto("Zapatillas Nike", 30);
-			Producto pelota = new Producto("Pelota", 20);
-			Producto heladera = new Producto("Heladera", 10);
+			Producto zapatilla = new Producto("Zapatillas Nike", 30, 0, 25000.00);
+			Producto pelota = new Producto("Pelota", 20, 0, 15000.00);
+			Producto heladera = new Producto("Heladera", 10, 0, 150000.00);
 			productoRepository.saveAll(List.of(zapatilla,pelota,heladera));
 
 			Categoria depote = new Categoria("Deportes");
