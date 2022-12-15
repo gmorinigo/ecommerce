@@ -55,7 +55,9 @@ public class EcommerceApplication {
 			carritoProductoRepository.saveAll(List.of(carrito1Zapatilla, carrito1Pelota));
 
 			Client client1 = new Client("Melba", "Lorenzo", "melba@emil.com", passwordEncoder.encode("ABCD1234"));
+			Client client2 = new Client("aa", "ss", "a@a.com", passwordEncoder.encode("123"));
 			clientRepository.save(client1);
+			clientRepository.save(client2);
 		};
 	}
 }

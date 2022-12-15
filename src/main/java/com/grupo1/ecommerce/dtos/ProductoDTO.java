@@ -16,13 +16,13 @@ public class ProductoDTO {
 
     private double precio;
 
-    private List<CategoriaDTO> categorias;
+    private List<String> categorias;
 
     public ProductoDTO(Producto producto) {
         this.id = producto.getId();
         this.nombre = producto.getNombre();
         this.stock = producto.getStock();
-        this.categorias = producto.getCategorias().stream().map(categProducto -> new CategoriaDTO(categProducto.getCategoria()))
+        this.categorias = producto.getCategorias().stream().map(categProducto -> categProducto.getCategoria().getNombre())
                 .collect(Collectors.toList());
         this.descuento = producto.getDescuento();
         this.precio = producto.getPrecio();
@@ -52,11 +52,11 @@ public class ProductoDTO {
         this.stock = stock;
     }
 
-    public List<CategoriaDTO> getCategorias() {
+    public List<String> getCategorias() {
         return categorias;
     }
 
-    public void setCategorias(List<CategoriaDTO> categorias) {
+    public void setCategorias(List<String> categorias) {
         this.categorias = categorias;
     }
 

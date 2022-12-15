@@ -1,9 +1,6 @@
 package com.grupo1.ecommerce.services;
 
-import com.grupo1.ecommerce.dtos.CategoriaDTO;
-import com.grupo1.ecommerce.dtos.DeleteCategoriaDTO;
-import com.grupo1.ecommerce.dtos.InsertCategoriaDTO;
-import com.grupo1.ecommerce.dtos.UpdateCategoriaDTO;
+import com.grupo1.ecommerce.dtos.*;
 import org.springframework.http.ResponseEntity;
 
 import java.util.List;
@@ -16,4 +13,6 @@ public interface ICategoriaService {
     void insertCategoria(InsertCategoriaDTO insertCategoriaDTO);
 
     ResponseEntity<Object> deleteCategoria(DeleteCategoriaDTO deleteCategoriaDTO);
+
+    ResponseEntity<Object> addProductoEnCategoria(InsertProductoEnCategoriaDTO insertProductoEnCategoriaDTO);
 }
