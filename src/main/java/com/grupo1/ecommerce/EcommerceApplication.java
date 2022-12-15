@@ -2,10 +2,12 @@ package com.grupo1.ecommerce;
 
 import com.grupo1.ecommerce.models.*;
 import com.grupo1.ecommerce.repository.*;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.List;
 
@@ -16,10 +18,13 @@ public class EcommerceApplication {
 		SpringApplication.run(EcommerceApplication.class, args);
 	}
 
+
+	@Autowired
+	PasswordEncoder passwordEncoder;
 	@Bean
 	public CommandLineRunner initData(ProductoRepository productoRepository, CategoriaRepository categoriaRepository,
 									  CategProductoRepository categProductoRepository, CarritoRepository carritoRepository,
-									  CarritoProductoRepository carritoProductoRepository) {
+									  CarritoProductoRepository carritoProductoRepository, ClientRepository clientRepository) {
 		return (args) -> {
 			Producto zapatilla = new Producto("Zapatillas Nike", 30);
 			Producto pelota = new Producto("Pelota", 20);
@@ -49,6 +54,8 @@ public class EcommerceApplication {
 
 			carritoProductoRepository.saveAll(List.of(carrito1Zapatilla, carrito1Pelota));
 
+			Client client1 = new Client("Melba", "Lorenzo", "melba@emil.com", passwordEncoder.encode("ABCD1234"));
+			clientRepository.save(client1);
 		};
 	}
 }
