@@ -15,6 +15,7 @@ import java.util.stream.Collectors;
 public class ProductoController {
     @Autowired
     ProductService productService;
+
     @PostMapping(path = "/products")
     public ResponseEntity<Object> createProduct(@RequestParam String productName
             , @RequestParam Integer productStock
