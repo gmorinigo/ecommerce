@@ -32,7 +32,7 @@ public class Client {
         LastName = lastName;
         this.email = email;
         this.password = password;
-        this.carrito = new Carrito();
+        //this.carrito = new Carrito();
     }
 
     public Long getId() {

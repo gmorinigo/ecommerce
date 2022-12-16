@@ -47,17 +47,26 @@ public class EcommerceApplication {
 			categProductoRepository.saveAll(List.of(zapatillaDeporte,zapatillaIndumentaria,pelotaDeporte,heladeraElectro,heladeraHogar));
 
 			Carrito carrito1 = new Carrito(0);
-			carritoRepository.save(carrito1);
-
-			CarritoProducto carrito1Zapatilla = new CarritoProducto(1,zapatilla,carrito1);
-			CarritoProducto carrito1Pelota = new CarritoProducto(1,pelota,carrito1);
-
-			carritoProductoRepository.saveAll(List.of(carrito1Zapatilla, carrito1Pelota));
+			Carrito carrito2 = new Carrito(0);
 
 			Client client1 = new Client("Melba", "Lorenzo", "melba@emil.com", passwordEncoder.encode("ABCD1234"));
 			Client client2 = new Client("aa", "ss", "a@a.com", passwordEncoder.encode("123"));
+
+			carrito1.setOwnerCarrito(client1);
+			carrito2.setOwnerCarrito(client2);
+			client1.setCarrito(carrito1);
+			client2.setCarrito(carrito2);
 			clientRepository.save(client1);
 			clientRepository.save(client2);
+			carritoRepository.save(carrito1);
+			carritoRepository.save(carrito2);
+
+
+			CarritoProducto carrito1Zapatilla = new CarritoProducto(1,zapatilla,client2.getCarrito());
+			CarritoProducto carrito1Pelota = new CarritoProducto(1,pelota,client2.getCarrito());
+			carritoProductoRepository.saveAll(List.of(carrito1Zapatilla, carrito1Pelota));
+
+
 		};
 	}
 }
