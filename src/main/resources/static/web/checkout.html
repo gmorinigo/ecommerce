@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<link href="https://fonts.googleapis.com/css?family=Lato|Liu+Jian+Mao+Cao&display=swap" rel="stylesheet">
+	<link rel="stylesheet" href="./styles-checkout.css">
+	<link rel="icon" type="image/png" sizes="32x32" href="./images/favicon-32x32.png">
+
+	<title>Grupo 1 | E-commerce productos</title>
+</head>
+<body>
+<div class="contenedor">
+
+
+	<!-- Contenedor lista de producto -->
+	<div class="formulario-producto">
+		<h2>Productos</h2>
+		<div class="cart">
+			<img class="cart__img" src="./images/productos/remera1.jfif" alt="">
+			<div class="cart__detalle">
+				<p class="cart__name">remera1</p>
+				<p class="cart_cantidad">Cantidad: 3 uni.</p>
+			</div>
+			<p class="cart__precio">$135.00 <span> X uni.</span></p>
+		</div>
+		<div class="cart">
+			<img class="cart__img" src="./images/productos/remera2.jfif" alt="">
+			<div class="cart__detalle">
+				<p class="cart__name">remera2</p>
+				<p class="cart_cantidad">Cantidad: 5 uni.</p>
+			</div>
+			<p class="cart__precio">$240.00 <span> X uni.</span></p>
+		</div>
+		<div class="cart">
+			<img class="cart__img" src="./images/productos/gorra3.jfif" alt="">
+			<div class="cart__detalle">
+				<p class="cart__name">gorra3</p>
+				<p class="cart_cantidad">Cantidad: 1 uni.</p>
+			</div>
+			<p class="cart__precio">$170.00 <span> X uni.</span></p>
+		</div>
+		<div class="cart__total">
+			<p>Total: <span id="total"></span>$1775.00</p>
+		</div>
+	</div>
+
+
+	<!-- Contenedor datos de facturación -->
+	<div class="formulario-facturacion">
+		<h2>Datos de facturación</h2>
+		<div class="flexbox">
+			<div class="grupoDir">
+				<label>Direección</label>
+				<input type="text" id="dire" maxlength="19" autocomplete="off">
+			</div>
+			<div class="grupoDirNum">
+				<label>Número</label>
+				<input type="text" id="direNum" maxlength="19" autocomplete="off">
+			</div>
+		</div>
+		<div class="flexbox">
+			<div class="grupoCP">
+				<label>Codigo Postal</label>
+				<input type="text" id="codPostal" maxlength="19" autocomplete="off">
+			</div>
+			<div class="grupoCiudad">
+				<label>Ciudad</label>
+				<input type="text" id="ciudad" maxlength="19" autocomplete="off">
+			</div>
+		</div>
+	</div>
+
+	<!-- Tarjeta -->
+	<section class="tarjeta" id="tarjeta">
+		<div class="delantera">
+			<div class="logo-marca" id="logo-marca">
+				<!-- <img src="img/logos/visa.png" alt=""> -->
+			</div>
+			<img src="img/chip-tarjeta.png" class="chip" alt="">
+			<div class="datos">
+				<div class="grupo" id="numero">
+					<p class="label">Número Tarjeta</p>
+					<p class="numero">#### #### #### ####</p>
+				</div>
+				<div class="flexbox">
+					<div class="grupo" id="nombre">
+						<p class="label">Nombre Tarjeta</p>
+						<p class="nombre"> </p>
+					</div>
+
+					<div class="grupo" id="expiracion">
+						<p class="label">Expiracion</p>
+						<p class="expiracion"><span class="mes">MM</span> / <span class="year">AA</span></p>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="trasera">
+			<div class="barra-magnetica"></div>
+			<div class="datos">
+				<div class="grupo" id="firma">
+					<p class="label">Firma</p>
+					<div class="firma"><p></p></div>
+				</div>
+				<div class="grupo" id="ccv">
+					<p class="label">CCV</p>
+					<p class="ccv"></p>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<!-- Contenedor Boton Abrir Formulario -->
+	<div class="contenedor-btn">
+		<button class="btn-abrir-formulario" id="btn-abrir-formulario">
+			<i class="fas fa-plus"></i>
+		</button>
+	</div>
+
+	<!-- Formulario -->
+	<form action="" id="formulario-tarjeta" class="formulario-tarjeta">
+		<div class="grupo">
+			<label for="inputNumero">Número Tarjeta</label>
+			<input type="text" id="inputNumero" maxlength="19" autocomplete="off">
+		</div>
+		<div class="grupo">
+			<label for="inputNombre">Nombre</label>
+			<input type="text" id="inputNombre" maxlength="19" autocomplete="off">
+		</div>
+		<div class="flexbox">
+			<div class="grupo expira">
+				<label for="selectMes">Expiracion</label>
+				<div class="flexbox">
+					<div class="grupo-select">
+						<select name="mes" id="selectMes">
+							<option disabled selected>Mes</option>
+						</select>
+						<i class="fas fa-angle-down"></i>
+					</div>
+					<div class="grupo-select">
+						<select name="year" id="selectYear">
+							<option disabled selected>Año</option>
+						</select>
+						<i class="fas fa-angle-down"></i>
+					</div>
+				</div>
+			</div>
+
+			<div class="grupo ccv">
+				<label for="inputCCV">CCV</label>
+				<input type="text" id="inputCCV" maxlength="3">
+			</div>
+		</div>
+		<button type="submit" class="btn-enviar"><img src="./images/icon-cart-white.svg" alt="cart">  COMPRAR</button>
+	</form>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js" integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf" crossorigin="anonymous"></script>
+<script src="https://kit.fontawesome.com/2c36e9b7b1.js" crossorigin="anonymous"></script>
+<script src="./checkout.js"></script>
+</body>
+</html>
