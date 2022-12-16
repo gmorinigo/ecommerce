@@ -1,126 +1,4 @@
-const getProductoList = [
-    {
-        id: 1,
-        name: 'remera1',
-        price: 270,
-        discount: 50,
-        stock: 20,
-        type: 'Remeras'
-    },
-    {
-        id: 2,
-        name: 'remera2',
-        price: 300,
-        discount: 20,
-        stock: 20,
-        type: 'Remeras'
-    },
-    {
-        id: 3,
-        name: 'remera3',
-        price: 200,
-        discount: 15,
-        stock: 20,
-        type: 'Remeras'
-    },
-    {
-        id: 4,
-        name: 'remera4',
-        price: 250,
-        discount: 30,
-        stock: 20,
-        type: 'Remeras'
-    },
-    {
-        id: 5,
-        name: 'zapatilla1',
-        price: 270,
-        discount: 50,
-        stock: 20,
-        type: 'Zapatillas'
-    },
-    {
-        id: 6,
-        name: 'zapatilla2',
-        price: 300,
-        discount: 20,
-        stock: 20,
-        type: 'Zapatillas'
-    },
-    {
-        id: 7,
-        name: 'zapatilla3',
-        price: 200,
-        discount: 15,
-        stock: 20,
-        type: 'Zapatillas'
-    },
-    {
-        id: 8,
-        name: 'gorra1',
-        price: 270,
-        discount: 50,
-        stock: 20,
-        type: 'Gorras'
-    },
-    {
-        id: 9,
-        name: 'gorra2',
-        price: 300,
-        discount: 20,
-        stock: 20,
-        type: 'Gorras'
-    },
-    {
-        id: 10,
-        name: 'gorra3',
-        price: 200,
-        discount: 15,
-        stock: 20,
-        type: 'Gorras'
-    },
-    {
-        id: 11,
-        name: 'gorra4',
-        price: 250,
-        discount: 30,
-        stock: 20,
-        type: 'Gorras'
-    },
-    {
-        id: 12,
-        name: 'capera1',
-        price: 270,
-        discount: 50,
-        stock: 20,
-        type: 'Camperas'
-    },
-    {
-        id: 13,
-        name: 'capera2',
-        price: 300,
-        discount: 20,
-        stock: 20,
-        type: 'Camperas'
-    },
-    {
-        id: 14,
-        name: 'capera3',
-        price: 200,
-        discount: 15,
-        stock: 20,
-        type: 'Camperas'
-    },
-    {
-        id: 15,
-        name: 'capera4',
-        price: 250,
-        discount: 30,
-        stock: 20,
-        type: 'Camperas'
-    }
-];
-
+let getProductoList = [];
 let productoList = [];
 let carrito = [];
 const divisa = '$';
@@ -132,6 +10,7 @@ var cartNotification = document.querySelector('.header__cart--notification');
 var linkDeslogeado = document.querySelector('.modal-perfil__link');
 var btnCompras = document.getElementById('compras');
 var btnSignOut = document.getElementById('signOut');
+var btnCheckOut = document.querySelector('.modal-cart__checkout');
 
 const cartIconBtn = document.querySelector('.header__cart');
 const cartModal = document.querySelector('.modal-cart');
@@ -157,21 +36,75 @@ var lastValue = 0;
 var cantIntem = 0;
 var modalCart = 0;
 var modalPerfil = 0;
+var logeado = 0;
 // Funciones
 /**
 * Dibuja todos los productos a partir de la base de datos.
 */
-function recuperarProducto() {
-    var product = document.querySelector('.navbar__link-select');
-    productoList = [];
-    getProductoList.forEach((item) => {
-        if (item.type === product.innerText){
-            productoList.push(item);
-        };
+async function recuperarListProducto() {
+
+    await axios.get("/api/products")
+    .then((response) => {
+
+         response.data.forEach((item) => {
+              let dataProd = {
+                              "id": item.id,
+                              "name": item.nombre,
+                              "price": item.precio,
+                              "discount": item.descuento,
+                              "stock": item.stock,
+                              "types": item.categorias
+                             }
+
+              getProductoList.push(dataProd);
+              })
+
+    }).catch((error)=>{
+        // handle error
+        console.log("Error getting data " + error)
     });
+
+    console.log(getProductoList);
+
+    renderizarProductos();
 }
 
-function renderizarProductos() {
+recuperarListProducto();
+
+function recuperarProducto() {
+    var product = document.querySelector('.navbar__link-select');
+    var categoriaEncontrada = 0;
+
+    productoList = [];
+    productoList = [];
+
+    getProductoList.forEach((item) => {
+             item.types.forEach((categoria) => {
+                 if (categoria === product.innerText){
+                     categoriaEncontrada = 1;
+                 }
+             });
+
+             let dataProdPag = {
+                              "id": item.id,
+                              "name": item.name,
+                              "price": item.price,
+                              "discount": item.discount,
+                              "stock": item.stock,
+                              "type": product.innerText
+                             }
+
+             if (categoriaEncontrada == 1){
+                 productoList.push(dataProdPag);
+                 categoriaEncontrada = 0;
+             };
+    });
+
+    console.log(productoList);
+    console.log(productoList.length);
+}
+
+async function renderizarProductos() {
     DOMitems.textContent = '';
     recuperarProducto();
     // Estructura
@@ -182,6 +115,7 @@ function renderizarProductos() {
     col.classList.add('col-12','col-md-3','mt-2');
 
     productoList.forEach((proct) => {
+        console.log("5");
         // Estructura
         const miNodo = document.createElement('div');
         miNodo.classList.add('product');
@@ -192,7 +126,7 @@ function renderizarProductos() {
         // Imagen
         const miNodoImagen = document.createElement('img');
         miNodoImagen.classList.add('product__img');
-        var srcImg = './images/' + proct.type + '/' + proct.name + '.jfif';
+        var srcImg = './images/productos/' + proct.name + '.jfif';
         miNodoImagen.setAttribute('src', srcImg);
         
         miNodo.appendChild(miNodoTitle);
@@ -203,14 +137,22 @@ function renderizarProductos() {
         // Precio
         const miNodoNow = document.createElement('p');
         miNodoNow.classList.add('product__now');
-        var precioNow = parseFloat(proct.price * (100 - proct.discount) / 100);
-        miNodoNow.textContent = `${divisa}${precioNow}`;
+
         const miNodoDiscount = document.createElement('p');
-        miNodoDiscount.classList.add('product__discount');
-        miNodoDiscount.textContent = `${proct.discount}${porcentaje}`;
         const miNodoBefore = document.createElement('p');
-        miNodoBefore.classList.add('product__before');
-        miNodoBefore.textContent = `${divisa}${proct.price}`;
+
+        if (proct.discount > 0){
+            var precioNow = parseFloat(proct.price * (100 - proct.discount) / 100);
+            miNodoNow.textContent = `${divisa}${precioNow}`;
+            miNodoDiscount.classList.add('product__discount');
+            miNodoDiscount.textContent = `${proct.discount}${porcentaje}`;
+            miNodoBefore.classList.add('product__before');
+            miNodoBefore.textContent = `${divisa}${proct.price}`;
+        }else{
+            var precioNow = parseFloat(proct.price);
+            miNodoNow.textContent = `${divisa}${precioNow}`;
+        };
+
         // Cuerpo Cantidad
         const miNodoCardBodyQuantity = document.createElement('div');
         miNodoCardBodyQuantity.classList.add('product__quantity');
@@ -249,8 +191,10 @@ function renderizarProductos() {
         miNodo.appendChild(miNodoTitle);
         miNodo.appendChild(miNodoImagen);
         miNodoCardBodyPrices.appendChild(miNodoNow);
-        miNodoCardBodyPrices.appendChild(miNodoDiscount);
-        miNodoCardBodyPrices.appendChild(miNodoBefore);
+        if (proct.discount > 0){
+            miNodoCardBodyPrices.appendChild(miNodoDiscount);
+            miNodoCardBodyPrices.appendChild(miNodoBefore);
+        }
         miNodo.appendChild(miNodoCardBodyPrices);
         miNodoCardBodyQuantity.appendChild(miNodoInput);
         miNodoCardBodyQuantity.appendChild(miNodoBoton);
@@ -260,18 +204,20 @@ function renderizarProductos() {
     row.appendChild(col);
     DOMitems.appendChild(row);
 
-    axios.get('/api/clients/current')
+    await axios.get('/api/clients/current')
     .then(response => {
                 btnCompras.style.display = 'block';
                 btnSignOut.style.display = 'block';
                 linkDeslogeado.style.display = 'none';
                 console.log(response.data);
+                logeado = 1;
     })
     .catch((error) =>{
                 btnCompras.style.display = 'none';
                 btnSignOut.style.display = 'none';
                 linkDeslogeado.style.display = 'block';
                 console.log(error);
+                logeado = 0;
     })
 }
 
@@ -298,23 +244,26 @@ function restarProducto(evento) {
 }
 
 function aniadirProductoAlCarrito(evento) {
-    var idCantFind = '#number' + evento.target.getAttribute('marcador');
-    var userImput = document.querySelector(idCantFind);
-    userImputNumber=parseInt(userImput.getAttribute('value'));
-    for (var i = 0 ; i < userImputNumber ; i++){
-          carrito.push(evento.target.getAttribute('marcador'))
+    if (logeado == 1){
+        var idCantFind = '#number' + evento.target.getAttribute('marcador');
+        var userImput = document.querySelector(idCantFind);
+        userImputNumber=parseInt(userImput.getAttribute('value'));
+        for (var i = 0 ; i < userImputNumber ; i++){
+              carrito.push(evento.target.getAttribute('marcador'))
+        }
+        lastValue = parseInt(cartNotification.innerText);
+        cantIntem = lastValue + userImputNumber;
+        if(cantIntem>=1){
+            cartNotification.innerText = cantIntem;
+            cartNotification.style.display = 'block';
+        };
+        userImput.setAttribute('value','0');
+    } else {
+        alert('Debes iniciar sesión para añadir a carrito');
     }
-    lastValue = parseInt(cartNotification.innerText);
-    cantIntem = lastValue + userImputNumber;
-    if(cantIntem>=1){
-        cartNotification.innerText = cantIntem;
-        cartNotification.style.display = 'block';
-    };
-    userImput.setAttribute('value','0');
 
 }
-   
-renderizarProductos();
+
 
 navProd1Btn.addEventListener('click', ()=>{
     if(navProd1Btn.getAttribute('class') == 'navbar__link'){
@@ -471,7 +420,7 @@ function renderizarCarrito() {
         
         const miNodoImagCart = document.createElement('img');
         miNodoImagCart.classList.add('modal-cart__logo');
-        var srcImgCart = './images/' + miItem[0].type + '/' + miItem[0].name + '.jfif';
+        var srcImgCart = './images/productos/' + miItem[0].name + '.jfif';
         miNodoImagCart.setAttribute('src', srcImgCart);
 
         const miNodoTextCart = document.createElement('p');

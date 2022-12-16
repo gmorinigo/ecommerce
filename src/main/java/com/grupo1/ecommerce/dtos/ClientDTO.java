@@ -5,6 +5,9 @@ import com.grupo1.ecommerce.models.Client;
 import com.grupo1.ecommerce.models.Ticket;
 
 import java.util.Set;
+import java.util.stream.Collectors;
+
+
 
 public class ClientDTO {
     private Long id;
@@ -14,7 +17,7 @@ public class ClientDTO {
     private String email;
     private String password;
     private Carrito carrito;
-    private Set<Ticket> tickets;
+    private Set<TicketDTO> tickets;
 
     public ClientDTO() {
     }
@@ -26,7 +29,7 @@ public class ClientDTO {
         this.email = client.getEmail();
         this.password = client.getPassword();
         this.carrito = client.getCarrito();
-        this.tickets = client.getTickets();
+        this.tickets = client.getTickets().stream().map(ticket -> new TicketDTO(ticket)).collect(Collectors.toSet());
     }
 
     public Long getId() {
@@ -77,11 +80,11 @@ public class ClientDTO {
         this.carrito = carrito;
     }
 
-    public Set<Ticket> getTickets() {
+    public Set<TicketDTO> getTickets() {
         return tickets;
     }
 
-    public void setTickets(Set<Ticket> tickets) {
+    public void setTickets(Set<TicketDTO> tickets) {
         this.tickets = tickets;
     }
 }
