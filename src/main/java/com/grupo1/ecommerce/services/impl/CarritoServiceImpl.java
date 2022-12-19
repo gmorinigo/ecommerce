@@ -14,7 +14,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import java.util.Optional;
 
 @Service
 public class CarritoServiceImpl implements ICarritoService {
@@ -67,6 +67,30 @@ public class CarritoServiceImpl implements ICarritoService {
         carritoProductoRepository.delete(carritoProducto);
 
         carritoRepository.save(carrito);
+    }
+
+    @Override
+    public ResponseEntity<Object> deleteProducto(Client clientAuth, Long idProducto) {
+        Producto producto = productoRepository.findById(idProducto).orElse(null);
+        Carrito carrito = clientAuth.getCarrito();
+
+        if (producto == null)
+            return new ResponseEntity<>("id de producto informado inválido", HttpStatus.FORBIDDEN);
+
+        CarritoProducto carritoProducto = carrito.getCarritosProducto().stream()
+                .filter(carProd -> carProd.getProducto().getId().equals(idProducto))
+                .findFirst().orElse(null);
+
+        if (carritoProducto == null)
+            return new ResponseEntity<>("Producto no encontrado en el carrito", HttpStatus.FORBIDDEN);
+
+        carrito.setMontoTotal(carrito.getMontoTotal() - ((producto.getPrecio() * (100 - producto.getDescuento()) / 100)
+                * carritoProducto.getCantidad()));
+
+        carritoProductoRepository.delete(carritoProducto);
+        carritoRepository.save(carrito);
+
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
 }
