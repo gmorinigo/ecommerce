@@ -80,11 +80,10 @@ public class TicketController {
             carritoService.eliminarProductoCarrito(clientAuth, carritoProducto);
         }
 
-
+        // ENVIO DE MAIL
         SimpleMailMessage email = new SimpleMailMessage();
         email.setTo(clientAuth.getEmail());
         email.setFrom("Grupo1.ecommerce.MindHub@gmail.com");
-        //email.setFrom("gustavo.morinigo.s@gmail.com");
         email.setSubject("Comprobate de pago - orden de compra #" + ticket.getId());
         email.setText("Se genero el pago correcto por una compra de $ " + ticket.getMontoTotal() + " pagado con la tarjeta XXXX-XXXX-XXXX-" + ticket.getNumTarjeta().substring(15));
 

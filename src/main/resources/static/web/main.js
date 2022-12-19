@@ -167,7 +167,7 @@ async function renderizarProductos() {
         const miNodoCant = document.createElement('input');
         miNodoCant.classList.add('input__number');
         miNodoCant.setAttribute('type', 'text');
-        miNodoCant.setAttribute('value', '0');
+        miNodoCant.setAttribute('value', '1');
         var idCant = 'number' + proct.id;
         miNodoCant.setAttribute('id', idCant);
         const miNodoImagPlus = document.createElement('img');
@@ -274,6 +274,44 @@ async function aniadirProductoAlCarrito(evento) {
 
 }
 
+/**
+* Evento para borrar un elemento del carrito
+*/
+async function borrarItemCarrito(evento) {
+    recuperarProducto();
+    const id = evento.target.getAttribute('marcador');
+    carrito = carrito.filter((carritoId) => {
+        return carritoId !== id;
+    });
+    
+    console.log("Se va a eliminar " + userImputNumber + " productos del ID " + idProducto + " del carrito")
+
+    cartNotification.innerText = carrito.length;
+
+    await axios.delete(`/api/carrito/deleteproducto?idProducto=${idProducto}`)
+    .then(response => console.log("Se va a eliminar " + userImputNumber + " productos del ID " + idProducto + " del carrito"))
+    .catch((error) =>{
+        // handle error
+        console.log("Error getting data " + error)
+    })
+
+    lastValue = parseInt(cartNotification.innerText);
+    cantIntem = lastValue - userImputNumber;
+    if(cantIntem>=1){
+        cartNotification.innerText = cantIntem;
+        cartNotification.style.display = 'block';
+    };
+    userImput.setAttribute('value','0');
+    
+    if (carrito.length == 0){
+        cartNotification.style.display = 'none';
+        modalCart = 0;
+        cartModal.style.display = 'none';
+    }else{
+        renderizarCarrito();
+    };
+
+}
 
 navProd1Btn.addEventListener('click', ()=>{
     if(navProd1Btn.getAttribute('class') == 'navbar__link'){
@@ -481,27 +519,6 @@ async function renderizarCarrito() {
 
     console.log(total);
     DOMtotal.textContent = total;
-}
-
-/**
-* Evento para borrar un elemento del carrito
-*/
-function borrarItemCarrito(evento) {
-    const id = evento.target.getAttribute('marcador');
-    carrito = carrito.filter((carritoId) => {
-        return carritoId !== id;
-    });
-    
-    cartNotification.innerText = carrito.length;
-
-    if (carrito.length == 0){
-        cartNotification.style.display = 'none';
-        modalCart = 0;
-        cartModal.style.display = 'none';
-    }else{
-        renderizarCarrito();
-    };
-
 }
 
 btnSignOut.addEventListener('click', ()=>{

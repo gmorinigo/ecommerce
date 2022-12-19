@@ -11,4 +11,6 @@ public interface ICarritoService {
     CarritoDTO getProductosCarrito(Client client);
 
     void eliminarProductoCarrito(Client cliente, CarritoProducto carritoProducto);
+
+    ResponseEntity<Object> deleteProducto(Client clientAuth, Long idProducto);
 }
