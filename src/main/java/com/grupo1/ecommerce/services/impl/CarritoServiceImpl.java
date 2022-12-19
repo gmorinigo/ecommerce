@@ -45,7 +45,7 @@ public class CarritoServiceImpl implements ICarritoService {
 
         carritoProductoRepository.save(new CarritoProducto(cantidad, producto, carrito));
 
-        carrito.setMontoTotal(carrito.getMontoTotal() + producto.getPrecio() * cantidad);
+        carrito.setMontoTotal(carrito.getMontoTotal() + ((producto.getPrecio() * (100 - producto.getDescuento()) / 100) * cantidad));
 
         carritoRepository.save(carrito);
 

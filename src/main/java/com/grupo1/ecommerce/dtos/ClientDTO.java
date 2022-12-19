@@ -16,7 +16,7 @@ public class ClientDTO {
     private String LastName;
     private String email;
     private String password;
-    private Carrito carrito;
+    private CarritoDTO carrito;
     private Set<TicketDTO> tickets;
 
     public ClientDTO() {
@@ -28,7 +28,7 @@ public class ClientDTO {
         LastName = client.getLastName();
         this.email = client.getEmail();
         this.password = client.getPassword();
-        this.carrito = client.getCarrito();
+        this.carrito = new CarritoDTO(client.getCarrito());
         this.tickets = client.getTickets().stream().map(ticket -> new TicketDTO(ticket)).collect(Collectors.toSet());
     }
 
@@ -72,11 +72,11 @@ public class ClientDTO {
         this.password = password;
     }
 
-    public Carrito getCarrito() {
+    public CarritoDTO getCarrito() {
         return carrito;
     }
 
-    public void setCarrito(Carrito carrito) {
+    public void setCarrito(CarritoDTO carrito) {
         this.carrito = carrito;
     }
 

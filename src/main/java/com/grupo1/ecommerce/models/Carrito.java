@@ -18,14 +18,16 @@ public class Carrito {
     @OneToMany(mappedBy = "carrito",fetch = FetchType.EAGER)
     private Set<CarritoProducto> carritosProducto;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne
+    @JoinColumn(name = "clientId")
     private Client ownerCarrito;
 
     public Carrito() {
     }
 
-    public Carrito(double montoTotal) {
+    public Carrito(double montoTotal, Client client) {
         this.montoTotal = montoTotal;
+        this.ownerCarrito = client;
     }
 
     public Long getId() {

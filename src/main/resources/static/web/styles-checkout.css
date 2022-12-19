@@ -394,8 +394,18 @@ h2{
     font-weight: 600;
 }
 
-.cart__precio span {
+.cart__precio-span {
 	color: #959fa7;
 	font-size: 12px;
     font-weight: 600;
+}
+
+.cancel {
+  text-decoration: none;
+	color: #959fa7;
+	font-size: 18px;
+    font-weight: 600;
+    text-align: center;
+    display: block;
+    weight: 100%;
 }

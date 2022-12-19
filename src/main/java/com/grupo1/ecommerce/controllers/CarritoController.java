@@ -20,11 +20,19 @@ public class CarritoController {
     ClientService clientService;
 
     @PostMapping("/carrito/addproducto")
-    public ResponseEntity<Object> addProductoACarrito(Authentication authentication, @RequestParam Long idProducto,
-                                                      @RequestParam int cantidad){
+    public ResponseEntity<Object> addProductoACarrito(@RequestParam Long idProducto,
+                                                      @RequestParam int cantidad, Authentication authentication){
         Client clientAuth = clientService.findByEmail(authentication.getName());
 
         return carritoService.addProductoACarrito(clientAuth, idProducto, cantidad);
+    }
+
+    @GetMapping("/carrito/total")
+    public double getTotalCarrito(Authentication authentication){
+
+        Client clientAuth = clientService.findByEmail(authentication.getName());
+
+        return clientAuth.getCarrito().getMontoTotal();
     }
 
     @GetMapping("/carrito")
