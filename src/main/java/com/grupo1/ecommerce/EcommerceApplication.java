@@ -90,6 +90,7 @@ public class EcommerceApplication {
 			clientRepository.save(client2);
 
 /*
+
 			Producto zapatilla = new Producto("Zapatillas Nike", 30, 0, 25000.00);
 			Producto pelota = new Producto("Pelota", 20, 0, 15000.00);
 			Producto heladera = new Producto("Heladera", 10, 0, 150000.00);
