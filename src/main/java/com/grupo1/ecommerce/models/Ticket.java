@@ -11,7 +11,7 @@ import java.util.Set;
 public class Ticket {
 
     @Id
-    @GeneratedValue()
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @GenericGenerator(name = "native", strategy = "native")
     private Long id;
     private double montoTotal;
