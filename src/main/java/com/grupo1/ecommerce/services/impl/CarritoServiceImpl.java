@@ -56,4 +56,17 @@ public class CarritoServiceImpl implements ICarritoService {
     public CarritoDTO getProductosCarrito(Client client) {
         return new CarritoDTO(client.getCarrito());
     }
+
+    @Override
+    public void eliminarProductoCarrito(Client client, CarritoProducto carritoProducto) {
+        Carrito carrito = client.getCarrito();
+        Producto producto = carritoProducto.getProducto();
+        carrito.setMontoTotal(carrito.getMontoTotal() - ((producto.getPrecio() * (100 - producto.getDescuento()) / 100)
+                                                                               * carritoProducto.getCantidad()));
+
+        carritoProductoRepository.delete(carritoProducto);
+
+        carritoRepository.save(carrito);
+    }
+
 }

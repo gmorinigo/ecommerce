@@ -7,6 +7,7 @@ import com.grupo1.ecommerce.models.Client;
 import com.grupo1.ecommerce.models.Ticket;
 import com.grupo1.ecommerce.repository.TicketRepository;
 import com.grupo1.ecommerce.services.ClientService;
+import com.grupo1.ecommerce.services.ICarritoService;
 import com.grupo1.ecommerce.services.TicketService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -28,6 +29,9 @@ public class TicketController {
 
     @Autowired
     ClientService clientService;
+
+    @Autowired
+    ICarritoService carritoService;
 
     @Autowired
     JavaMailSender javaMailSender;
@@ -73,11 +77,14 @@ public class TicketController {
 
         for (CarritoProducto carritoProducto : clientAuth.getCarrito().getCarritosProducto()) {
             ticketService.addProdToTicket(ticket, carritoProducto);
+            carritoService.eliminarProductoCarrito(clientAuth, carritoProducto);
         }
+
 
         SimpleMailMessage email = new SimpleMailMessage();
         email.setTo(clientAuth.getEmail());
         email.setFrom("Grupo1.ecommerce.MindHub@gmail.com");
+        //email.setFrom("gustavo.morinigo.s@gmail.com");
         email.setSubject("Comprobate de pago - orden de compra #" + ticket.getId());
         email.setText("Se genero el pago correcto por una compra de $ " + ticket.getMontoTotal() + " pagado con la tarjeta XXXX-XXXX-XXXX-" + ticket.getNumTarjeta().substring(15));
 
