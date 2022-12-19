@@ -19,4 +19,6 @@ public interface TicketService {
     List<TicketDTO>  currentTicket(Client client);
 
     void addProdToTicket(Ticket ticket, CarritoProducto carritoProducto);
+
+    void save(Ticket ticket);
 }

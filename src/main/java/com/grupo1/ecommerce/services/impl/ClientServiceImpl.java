@@ -1,7 +1,9 @@
 package com.grupo1.ecommerce.services.impl;
 
 import com.grupo1.ecommerce.dtos.ClientDTO;
+import com.grupo1.ecommerce.models.Carrito;
 import com.grupo1.ecommerce.models.Client;
+import com.grupo1.ecommerce.repository.CarritoRepository;
 import com.grupo1.ecommerce.repository.ClientRepository;
 import com.grupo1.ecommerce.services.ClientService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +17,9 @@ public class ClientServiceImpl implements ClientService {
 
     @Autowired
     ClientRepository clientRepository;
+
+    @Autowired
+    CarritoRepository carritoRepository;
 
     @Autowired
     PasswordEncoder passwordEncoder;
@@ -54,6 +59,8 @@ public class ClientServiceImpl implements ClientService {
 
     public void createClient(String firstName, String lastName, String email, String password){
         Client client = new Client(firstName, lastName, email, passwordEncoder.encode(password));
+        Carrito carrito = new Carrito(0, client);
+        client.setCarrito(carrito);
         clientRepository.save(client);
     }
 }

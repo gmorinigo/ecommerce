@@ -5,11 +5,14 @@ import com.grupo1.ecommerce.dtos.TicketDTO;
 import com.grupo1.ecommerce.models.CarritoProducto;
 import com.grupo1.ecommerce.models.Client;
 import com.grupo1.ecommerce.models.Ticket;
+import com.grupo1.ecommerce.repository.TicketRepository;
 import com.grupo1.ecommerce.services.ClientService;
 import com.grupo1.ecommerce.services.TicketService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.core.Authentication;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
@@ -25,6 +28,12 @@ public class TicketController {
 
     @Autowired
     ClientService clientService;
+
+    @Autowired
+    JavaMailSender javaMailSender;
+
+    @Autowired
+    TicketRepository ticketProdRepository;
 
     @GetMapping("/tickets")
     public List<TicketDTO> getTickets() {
@@ -60,9 +69,19 @@ public class TicketController {
                 ticketApplicationDTO.getMesVencimiento(),
                 clientAuth);
 
+        ticketService.save(ticket);
+
         for (CarritoProducto carritoProducto : clientAuth.getCarrito().getCarritosProducto()) {
             ticketService.addProdToTicket(ticket, carritoProducto);
         }
+
+        SimpleMailMessage email = new SimpleMailMessage();
+        email.setTo(clientAuth.getEmail());
+        email.setFrom("Grupo1.ecommerce.MindHub@gmail.com");
+        email.setSubject("Comprobate de pago - orden de compra #" + ticket.getId());
+        email.setText("Se genero el pago correcto por una compra de $ " + ticket.getMontoTotal() + " pagado con la tarjeta XXXX-XXXX-XXXX-" + ticket.getNumTarjeta().substring(15));
+
+        javaMailSender.send(email);
 
         return new ResponseEntity<>(HttpStatus.CREATED);
     }

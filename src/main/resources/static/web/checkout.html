@@ -17,32 +17,9 @@
 	<!-- Contenedor lista de producto -->
 	<div class="formulario-producto">
 		<h2>Productos</h2>
-		<div class="cart">
-			<img class="cart__img" src="./images/productos/remera1.jfif" alt="">
-			<div class="cart__detalle">
-				<p class="cart__name">remera1</p>
-				<p class="cart_cantidad">Cantidad: 3 uni.</p>
-			</div>
-			<p class="cart__precio">$135.00 <span> X uni.</span></p>
-		</div>
-		<div class="cart">
-			<img class="cart__img" src="./images/productos/remera2.jfif" alt="">
-			<div class="cart__detalle">
-				<p class="cart__name">remera2</p>
-				<p class="cart_cantidad">Cantidad: 5 uni.</p>
-			</div>
-			<p class="cart__precio">$240.00 <span> X uni.</span></p>
-		</div>
-		<div class="cart">
-			<img class="cart__img" src="./images/productos/gorra3.jfif" alt="">
-			<div class="cart__detalle">
-				<p class="cart__name">gorra3</p>
-				<p class="cart_cantidad">Cantidad: 1 uni.</p>
-			</div>
-			<p class="cart__precio">$170.00 <span> X uni.</span></p>
-		</div>
+		<div id="carrito"></div>
 		<div class="cart__total">
-			<p>Total: <span id="total"></span>$1775.00</p>
+			<p>Total: <span id="total"></span></p>
 		</div>
 	</div>
 
@@ -78,7 +55,7 @@
 			<div class="logo-marca" id="logo-marca">
 				<!-- <img src="img/logos/visa.png" alt=""> -->
 			</div>
-			<img src="img/chip-tarjeta.png" class="chip" alt="">
+			<img src="./images/chip-tarjeta.png" class="chip" alt="">
 			<div class="datos">
 				<div class="grupo" id="numero">
 					<p class="label">Número Tarjeta</p>
@@ -155,6 +132,7 @@
 			</div>
 		</div>
 		<button type="submit" class="btn-enviar"><img src="./images/icon-cart-white.svg" alt="cart">  COMPRAR</button>
+		<a class="cancel" href="./index.html">Cancelar</a>
 	</form>
 </div>
 

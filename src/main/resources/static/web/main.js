@@ -243,14 +243,24 @@ function restarProducto(evento) {
 
 }
 
-function aniadirProductoAlCarrito(evento) {
+async function aniadirProductoAlCarrito(evento) {
     if (logeado == 1){
         var idCantFind = '#number' + evento.target.getAttribute('marcador');
         var userImput = document.querySelector(idCantFind);
         userImputNumber=parseInt(userImput.getAttribute('value'));
-        for (var i = 0 ; i < userImputNumber ; i++){
-              carrito.push(evento.target.getAttribute('marcador'))
-        }
+        idProducto=parseInt(evento.target.getAttribute('marcador'));
+
+        console.log("Se va a agregar " + userImputNumber + " productos del ID " + idProducto + " al carrito")
+
+        await axios.post(`/api/carrito/addproducto?idProducto=${idProducto}&cantidad=${userImputNumber}`)
+        .then(response => console.log("Se agregaron " + userImputNumber + " productos del ID " + idProducto + " al carrito"))
+        .catch((error) =>{
+            // handle error
+            console.log("Error getting data " + error)
+        })
+
+        console.log(evento.target.getAttribute('marcador'));
+
         lastValue = parseInt(cartNotification.innerText);
         cantIntem = lastValue + userImputNumber;
         if(cantIntem>=1){
@@ -405,33 +415,50 @@ closeNavModalBtn.addEventListener('click', ()=>{
 });
 
 
-function renderizarCarrito() {
+async function renderizarCarrito() {
+    var total = 0;
     DOMcarrito.textContent = '';
-    const carritoSinDuplicados = [...new Set(carrito)];
-    carritoSinDuplicados.forEach((item) => {
-        const miItem = getProductoList.filter((itemProductos) => {
-            return itemProductos.id === parseInt(item);
-        });
-        const numeroUnidadesItem = carrito.reduce((total, itemId) => {
-            return itemId === item ? total += 1 : total;
-        }, 0);
+    carrito = [];
+
+    await axios.get("/api/carrito")
+    .then((response) => {
+
+         response.data.productos.forEach((item) => {
+              let dataProd = {
+                              "id": item.id,
+                              "name": item.nombre,
+                              "price": item.precio,
+                              "discount": item.descuento,
+                              "cant": item.cantidad
+                             }
+
+              carrito.push(dataProd);
+              })
+
+    }).catch((error)=>{
+        // handle error
+        console.log("Error getting data " + error)
+    });
+
+    carrito.forEach((item) => {
+
         const miNodo = document.createElement('div');
         miNodo.classList.add('modal-cart__details-container');
         
         const miNodoImagCart = document.createElement('img');
         miNodoImagCart.classList.add('modal-cart__logo');
-        var srcImgCart = './images/productos/' + miItem[0].name + '.jfif';
+        var srcImgCart = './images/productos/' + item.name + '.jfif';
         miNodoImagCart.setAttribute('src', srcImgCart);
 
         const miNodoTextCart = document.createElement('p');
         miNodoTextCart.classList.add('modal-cart__price');
-        precioNowCart = parseFloat(miItem[0].price * (100 - miItem[0].discount) / 100);
-        miNodoTextCart.textContent = `${numeroUnidadesItem} x ${miItem[0].name} - ${precioNowCart}${divisa}`;
+        precioNowCart = parseFloat(item.price * (100 - item.discount) / 100);
+        miNodoTextCart.textContent = `${item.cant} x ${item.name} - ${precioNowCart}${divisa}`;
 
         const miNodoDeleteCart = document.createElement('img');
         miNodoDeleteCart.classList.add('modal-cart__delete');
         miNodoDeleteCart.setAttribute('src', './images/icon-delete.svg');
-        miNodoDeleteCart.setAttribute('marcador', miItem[0].id);
+        miNodoDeleteCart.setAttribute('marcador', item.id);
         miNodoDeleteCart.addEventListener('click', borrarItemCarrito);
 
         miNodo.appendChild(miNodoImagCart);
@@ -439,8 +466,21 @@ function renderizarCarrito() {
         miNodo.appendChild(miNodoDeleteCart);
         DOMcarrito.appendChild(miNodo);
     });
-    console.log(calcularTotal());
-    DOMtotal.textContent = calcularTotal();
+
+/**
+ * Calcula el precio total teniendo en cuenta los productos repetidos
+ */
+    await axios.get("/api/carrito/total")
+    .then((response) => {
+        total = response.data;
+
+    }).catch((error)=>{
+        // handle error
+        console.log("Error getting data " + error)
+    });
+
+    console.log(total);
+    DOMtotal.textContent = total;
 }
 
 /**
@@ -462,19 +502,6 @@ function borrarItemCarrito(evento) {
         renderizarCarrito();
     };
 
-}
-
-/**
- * Calcula el precio total teniendo en cuenta los productos repetidos
- */
-function calcularTotal() {
-    return carrito.reduce((total, item) => {
-        const miItem = getProductoList.filter((itemProductos) => {
-            return itemProductos.id === parseInt(item);
-        });
-        precioNowCart = parseFloat(miItem[0].price * (100 - miItem[0].discount) / 100);
-        return total + precioNowCart;
-    }, 0).toFixed(2);
 }
 
 btnSignOut.addEventListener('click', ()=>{

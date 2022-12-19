@@ -42,4 +42,9 @@ public class TicketServiceImpl implements TicketService {
         TicketProd ticketProd = new TicketProd(carritoProducto.getCantidad(), ticket, carritoProducto.getProducto());
         ticketProdRepository.save(ticketProd);
     }
+
+    @Override
+    public void save(Ticket ticket) {
+        ticketRepository.save(ticket);
+    }
 }
