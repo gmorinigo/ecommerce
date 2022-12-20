@@ -5,7 +5,6 @@ import com.grupo1.ecommerce.dtos.TicketDTO;
 import com.grupo1.ecommerce.models.CarritoProducto;
 import com.grupo1.ecommerce.models.Client;
 import com.grupo1.ecommerce.models.Ticket;
-import com.grupo1.ecommerce.repository.TicketRepository;
 import com.grupo1.ecommerce.services.ClientService;
 import com.grupo1.ecommerce.services.ICarritoService;
 import com.grupo1.ecommerce.services.TicketService;
@@ -35,9 +34,6 @@ public class TicketController {
 
     @Autowired
     JavaMailSender javaMailSender;
-
-    @Autowired
-    TicketRepository ticketProdRepository;
 
     @GetMapping("/tickets")
     public List<TicketDTO> getTickets() {

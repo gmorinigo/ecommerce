@@ -46,7 +46,7 @@ public class CarritoController {
 
     @Transactional
     @DeleteMapping("/carrito/deleteproducto")
-    public ResponseEntity<Object> deleteProducto (Authentication authentication, @RequestParam Long idProducto){
+    public Integer deleteProducto (Authentication authentication, @RequestParam Long idProducto){
         Client clientAuth = clientService.findByEmail(authentication.getName());
 
         return carritoService.deleteProducto(clientAuth, idProducto);

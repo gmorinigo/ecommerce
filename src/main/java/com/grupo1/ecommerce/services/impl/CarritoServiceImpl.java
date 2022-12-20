@@ -14,6 +14,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.criteria.CriteriaBuilder;
 import java.util.Optional;
 
 @Service
@@ -70,27 +71,35 @@ public class CarritoServiceImpl implements ICarritoService {
     }
 
     @Override
-    public ResponseEntity<Object> deleteProducto(Client clientAuth, Long idProducto) {
-        Producto producto = productoRepository.findById(idProducto).orElse(null);
-        Carrito carrito = clientAuth.getCarrito();
+    public Integer deleteProducto(Client clientAuth, Long idProducto) {
 
-        if (producto == null)
-            return new ResponseEntity<>("id de producto informado inválido", HttpStatus.FORBIDDEN);
+        Producto producto = productoRepository.findById(idProducto).orElse(null);
+
+        Carrito carrito = clientAuth.getCarrito();
 
         CarritoProducto carritoProducto = carrito.getCarritosProducto().stream()
                 .filter(carProd -> carProd.getProducto().getId().equals(idProducto))
                 .findFirst().orElse(null);
 
-        if (carritoProducto == null)
-            return new ResponseEntity<>("Producto no encontrado en el carrito", HttpStatus.FORBIDDEN);
+        Integer cantProd = 0;
 
-        carrito.setMontoTotal(carrito.getMontoTotal() - ((producto.getPrecio() * (100 - producto.getDescuento()) / 100)
-                * carritoProducto.getCantidad()));
+        for (CarritoProducto carritoProd : carrito.getCarritosProducto()) {
+            if (carritoProd != carritoProducto){
+                cantProd = cantProd + carritoProd.getCantidad();
+            }
+        }
 
-        carritoProductoRepository.delete(carritoProducto);
-        carritoRepository.save(carrito);
+        if (carritoProducto != null) {
 
-        return new ResponseEntity<>(HttpStatus.OK);
+            carrito.setMontoTotal(carrito.getMontoTotal() - ((producto.getPrecio() * (100 - producto.getDescuento()) / 100)
+                    * carritoProducto.getCantidad()));
+
+            carritoProductoRepository.delete(carritoProducto);
+            carritoRepository.save(carrito);
+
+        }
+
+        return cantProd;
     }
 
 }
