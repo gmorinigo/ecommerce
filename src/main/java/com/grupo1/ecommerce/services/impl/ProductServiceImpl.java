@@ -34,11 +34,6 @@ public class ProductServiceImpl implements ProductService {
         if (!(productPrice == null)) {
             product.setPrecio(productPrice);
         }
-        //TODO
-        /*
-        if (!(categoria == null)) {
-            Set<Categoria> categorias = product.getCategorias();
-        }*/
         return productoRepository.save(product);
     }
     @Override
