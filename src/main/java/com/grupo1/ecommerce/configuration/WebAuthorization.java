@@ -21,26 +21,21 @@ public class WebAuthorization extends WebSecurityConfigurerAdapter {
 
     protected void configure(HttpSecurity http) throws Exception {
 
-/*
+
         http.authorizeRequests()
 
-                .antMatchers("/web/index.html", "/web/js/index.js",  "/web/img/**", "/web/css/**").permitAll()
+                .antMatchers("/web/index.html", "/web/main.js",  "/web/images/**", "/web/styles.css").permitAll()
+                .antMatchers("/web/signIn.html","/web/styles-login.css","/web/signIn.js").permitAll()
+                .antMatchers(HttpMethod.GET,"/api/products").permitAll()
                 .antMatchers(HttpMethod.POST,"/api/clients").permitAll()
                 .antMatchers("/admin/**").hasAuthority("ADMIN")
-                .antMatchers("/api/admin/**").hasAuthority("ADMIN")
-                .antMatchers("/web/**", "/**").hasAuthority("CLIENT");
-*/
-
+                .antMatchers("/api/**","/web/**").hasAnyAuthority("ADMIN","CLIENT")
+                .antMatchers("/api/admin/**").hasAuthority("ADMIN");
 
         http.formLogin()
-
                 .usernameParameter("email")
-
                 .passwordParameter("password")
-
                 .loginPage("/api/login");
-
-
 
         http.logout().logoutUrl("/api/logout");
 
