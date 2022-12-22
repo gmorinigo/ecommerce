@@ -16,9 +16,10 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.core.Authentication;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api")
@@ -80,6 +81,11 @@ public class TicketController {
 
         for (CarritoProducto carritoProducto : clientAuth.getCarrito().getCarritosProducto()) {
             ticketService.addProdToTicket(newTicket, carritoProducto);
+        }
+
+        List<CarritoProducto> carritos = clientAuth.getCarrito().getCarritosProducto().stream().collect(Collectors.toList());
+
+        for (CarritoProducto carritoProducto : carritos) {
             carritoService.eliminarProductoCarrito(clientAuth, carritoProducto);
         }
 

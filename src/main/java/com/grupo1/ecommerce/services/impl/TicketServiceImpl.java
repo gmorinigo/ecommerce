@@ -59,8 +59,15 @@ public class TicketServiceImpl implements TicketService {
                 ,paymentApplicationDTO.getCvv()
                 ,paymentApplicationDTO.getAnioVencimiento()
                 ,paymentApplicationDTO.getMesVencimiento());
+        System.out.println("loggedClient.getEmail():" + loggedClient.getEmail());
+        System.out.println("paymentApplicationDTO.getNumTarjeta():" + paymentApplicationDTO.getNumTarjeta());
+        System.out.println("paymentApplicationDTO.getCvv():" + paymentApplicationDTO.getCvv());
+        System.out.println("paymentApplicationDTO.getAnioVencimiento():" + paymentApplicationDTO.getAnioVencimiento());
+        System.out.println("paymentApplicationDTO.getMesVencimiento()):" + paymentApplicationDTO.getMesVencimiento());
+
         ResponseEntity<Object> validatePaymentMethod =
-                restTemplate.postForEntity("http://homebanking-production-0187.up.railway.app/api/clients/validate/card"
+//                restTemplate.postForEntity("https://homebanking-production-0187.up.railway.app/api/clients/validate/card"
+                  restTemplate.postForEntity("http://localhost:8080/api/clients/validate/card"
                         , paymentMethod
                         , Object.class);
         if (validatePaymentMethod.getStatusCode().equals(HttpStatus.OK)) {
@@ -74,7 +81,7 @@ public class TicketServiceImpl implements TicketService {
                     , LocalDateTime.now()
                     , loggedClient));
         } else {
-            return new Ticket();
+            return null;
         }
     }
 }
