@@ -8,6 +8,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
 
@@ -18,7 +19,10 @@ public class EcommerceApplication {
 		SpringApplication.run(EcommerceApplication.class, args);
 	}
 
-
+	@Bean
+	public RestTemplate getRestTemplate() {
+		return new RestTemplate();
+	}
 	@Autowired
 	PasswordEncoder passwordEncoder;
 	@Bean
@@ -79,15 +83,19 @@ public class EcommerceApplication {
 
 			Client client1 = new Client("Melba", "Lorenzo", "melba.testjava@gmail.com", passwordEncoder.encode("ABCD1234"));
 			Client client2 = new Client("aa", "ss", "a@a.com", passwordEncoder.encode("123"));
+			Client client3 = new Client("Nico", "Romero", "nico.romero@mail.com",passwordEncoder.encode("1234"));
 
 			Carrito carrito1 = new Carrito(0, client1);
 			Carrito carrito2 = new Carrito(0, client2);
+			Carrito carrito3 = new Carrito(0, client3);
 
 			client1.setCarrito(carrito1);
 			client2.setCarrito(carrito2);
+			client3.setCarrito(carrito3);
 
 			clientRepository.save(client1);
 			clientRepository.save(client2);
+			clientRepository.save(client3);
 /*
 			Producto zapatilla = new Producto("Zapatillas Nike", 30, 0, 25000.00);
 			Producto pelota = new Producto("Pelota", 20, 0, 15000.00);

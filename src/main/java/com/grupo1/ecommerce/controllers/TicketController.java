@@ -1,6 +1,6 @@
 package com.grupo1.ecommerce.controllers;
 
-import com.grupo1.ecommerce.dtos.TicketApplicationDTO;
+import com.grupo1.ecommerce.dtos.PaymentApplicationDTO;
 import com.grupo1.ecommerce.dtos.TicketDTO;
 import com.grupo1.ecommerce.models.CarritoProducto;
 import com.grupo1.ecommerce.models.Client;
@@ -18,6 +18,8 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api")
@@ -46,7 +48,7 @@ public class TicketController {
     }
 
     @GetMapping("/clients/current/tickets")
-    public List<TicketDTO>  currentTicket(Authentication authentication) {
+    public List<TicketDTO> currentTicket(Authentication authentication) {
 
         Client clientAuth = clientService.findByEmail(authentication.getName());
         return ticketService.currentTicket(clientAuth);
@@ -54,25 +56,36 @@ public class TicketController {
 
     @Transactional
     @PostMapping("/tickets")
-    public ResponseEntity<String> addTicket(@RequestBody TicketApplicationDTO ticketApplicationDTO, Authentication authentication) {
+    public ResponseEntity<String> addTicket(@RequestBody PaymentApplicationDTO paymentApplicationDTO, Authentication authentication) {
 
         Client clientAuth = clientService.findByEmail(authentication.getName());
 
-        Ticket ticket = new Ticket(ticketApplicationDTO.getMontoTotal(),
-                ticketApplicationDTO.getDirreccion(),
-                ticketApplicationDTO.getDirreccionNum(),
-                ticketApplicationDTO.getCodigoPostal(),
-                ticketApplicationDTO.getCiudad(),
-                ticketApplicationDTO.getNumTarjeta(),
-                ticketApplicationDTO.getCvv(),
-                ticketApplicationDTO.getAnioVencimiento(),
-                ticketApplicationDTO.getMesVencimiento(),
-                clientAuth);
+        if (paymentApplicationDTO.getCiudad().isEmpty()
+        || paymentApplicationDTO.getCodigoPostal().isEmpty()
+        || paymentApplicationDTO.getDireccion().isEmpty()
+        || paymentApplicationDTO.getDireccionNum().isEmpty()) {
+            return new ResponseEntity<>("Location missing data", HttpStatus.FORBIDDEN);
+        }
 
-        ticketService.save(ticket);
+        if (paymentApplicationDTO.getNumTarjeta().isEmpty()
+        || paymentApplicationDTO.getCvv() == 0
+        || paymentApplicationDTO.getMesVencimiento() == 0
+        || paymentApplicationDTO.getAnioVencimiento() == 0) {
+            return new ResponseEntity<>("Payment card missing data", HttpStatus.FORBIDDEN);
+        }
+
+        Ticket newTicket = ticketService.newTicket(paymentApplicationDTO, clientAuth);
+        if (newTicket.getCiudad() == null) {
+            return new ResponseEntity<>("Check payment method", HttpStatus.FORBIDDEN);
+        }
 
         for (CarritoProducto carritoProducto : clientAuth.getCarrito().getCarritosProducto()) {
-            ticketService.addProdToTicket(ticket, carritoProducto);
+            ticketService.addProdToTicket(newTicket, carritoProducto);
+        }
+
+        List<CarritoProducto> carritos = clientAuth.getCarrito().getCarritosProducto().stream().collect(Collectors.toList());
+
+        for (CarritoProducto carritoProducto : carritos) {
             carritoService.eliminarProductoCarrito(clientAuth, carritoProducto);
         }
 
@@ -80,8 +93,8 @@ public class TicketController {
         SimpleMailMessage email = new SimpleMailMessage();
         email.setTo(clientAuth.getEmail());
         email.setFrom("Grupo1.ecommerce.MindHub@gmail.com");
-        email.setSubject("Comprobate de pago - orden de compra #" + ticket.getId());
-        email.setText("Se genero el pago correcto por una compra de $ " + ticket.getMontoTotal() + " pagado con la tarjeta XXXX-XXXX-XXXX-" + ticket.getNumTarjeta().substring(15));
+        email.setSubject("Comprobante de pago - orden de compra #" + newTicket.getId());
+        email.setText("Se genero el pago correcto por una compra de $ " + newTicket.getMontoTotal() + " pagado con la tarjeta " + newTicket.getPaymentMethod());
 
         javaMailSender.send(email);
 

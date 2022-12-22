@@ -248,8 +248,8 @@ btnSubmit.addEventListener('click', (e)=>{
 
     let dataTicket = {
             "montoTotal": DOMtotal.innerHTML,
-            "dirreccion": dire.value,
-            "dirreccionNum": direNum.value,
+            "direccion": dire.value,
+            "direccionNum": direNum.value,
             "codigoPostal": codPostal.value,
             "ciudad": ciudad.value,
             "numTarjeta": numeroTarjeta.innerHTML,
@@ -260,7 +260,7 @@ btnSubmit.addEventListener('click', (e)=>{
 
     console.log(dataTicket);
 
-    axios.post("/api/tickets",{montoTotal: dataTicket.montoTotal, dirreccion: dataTicket.dirreccion, dirreccionNum: dataTicket.dirreccionNum, codigoPostal: dataTicket.codigoPostal, ciudad: dataTicket.ciudad, numTarjeta: dataTicket.numTarjeta, cvv: dataTicket.cvv, anioVencimiento: dataTicket.anioVencimiento, mesVencimiento: dataTicket.mesVencimiento})
+    axios.post("/api/tickets",{montoTotal: dataTicket.montoTotal, direccion: dataTicket.direccion, direccionNum: dataTicket.direccionNum, codigoPostal: dataTicket.codigoPostal, ciudad: dataTicket.ciudad, numTarjeta: dataTicket.numTarjeta, cvv: dataTicket.cvv, anioVencimiento: dataTicket.anioVencimiento, mesVencimiento: dataTicket.mesVencimiento})
     .then((response) => window.location.href="/web/index.html")
     .catch((error)=>{
         // handle error

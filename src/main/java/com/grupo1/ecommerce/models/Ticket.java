@@ -3,6 +3,7 @@ package com.grupo1.ecommerce.models;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -15,14 +16,12 @@ public class Ticket {
     @GenericGenerator(name = "native", strategy = "native")
     private Long id;
     private double montoTotal;
-    private String dirreccion;
-    private String dirreccionNum;
+    private String direccion;
+    private String direccionNum;
     private String codigoPostal;
     private String ciudad;
-    private String numTarjeta;
-    private Integer cvv;
-    private Integer anioVencimiento;
-    private Integer mesVencimiento;
+    private String paymentMethod;
+    private LocalDateTime creationDate;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "owner_id")
@@ -34,16 +33,21 @@ public class Ticket {
     public Ticket() {
     }
 
-    public Ticket(double montoTotal, String dirreccion, String dirreccionNum, String codigoPostal, String ciudad, String numTarjeta, Integer cvv, Integer anioVencimiento, Integer mesVencimiento, Client owner) {
+    public Ticket(double montoTotal
+            , String direccion
+            , String direccionNum
+            , String codigoPostal
+            , String ciudad
+            , String paymentMethod
+            , LocalDateTime creationDate
+            , Client owner) {
         this.montoTotal = montoTotal;
-        this.dirreccion = dirreccion;
-        this.dirreccionNum = dirreccionNum;
+        this.direccion = direccion;
+        this.direccionNum = direccionNum;
         this.codigoPostal = codigoPostal;
         this.ciudad = ciudad;
-        this.numTarjeta = numTarjeta;
-        this.cvv = cvv;
-        this.anioVencimiento = anioVencimiento;
-        this.mesVencimiento = mesVencimiento;
+        this.paymentMethod = paymentMethod;
+        this.creationDate = creationDate;
         this.ownerTicket = owner;
     }
 
@@ -63,20 +67,20 @@ public class Ticket {
         this.montoTotal = montoTotal;
     }
 
-    public String getDirreccion() {
-        return dirreccion;
+    public String getDireccion() {
+        return direccion;
     }
 
-    public void setDirreccion(String dirreccion) {
-        this.dirreccion = dirreccion;
+    public void setDireccion(String direccion) {
+        this.direccion = direccion;
     }
 
-    public String getDirreccionNum() {
-        return dirreccionNum;
+    public String getDireccionNum() {
+        return direccionNum;
     }
 
-    public void setDirreccionNum(String dirreccionNum) {
-        this.dirreccionNum = dirreccionNum;
+    public void setDireccionNum(String direccionNum) {
+        this.direccionNum = direccionNum;
     }
 
     public String getCodigoPostal() {
@@ -95,36 +99,20 @@ public class Ticket {
         this.ciudad = ciudad;
     }
 
-    public String getNumTarjeta() {
-        return numTarjeta;
+    public String getPaymentMethod() {
+        return paymentMethod;
     }
 
-    public void setNumTarjeta(String numTarjeta) {
-        this.numTarjeta = numTarjeta;
+    public void setPaymentMethod(String paymentMethod) {
+        this.paymentMethod = paymentMethod;
     }
 
-    public Integer getCvv() {
-        return cvv;
+    public LocalDateTime getCreationDate() {
+        return creationDate;
     }
 
-    public void setCvv(Integer cvv) {
-        this.cvv = cvv;
-    }
-
-    public Integer getAnioVencimiento() {
-        return anioVencimiento;
-    }
-
-    public void setAnioVencimiento(Integer anioVencimiento) {
-        this.anioVencimiento = anioVencimiento;
-    }
-
-    public Integer getMesVencimiento() {
-        return mesVencimiento;
-    }
-
-    public void setMesVencimiento(Integer mesVencimiento) {
-        this.mesVencimiento = mesVencimiento;
+    public void setCreationDate(LocalDateTime creationDate) {
+        this.creationDate = creationDate;
     }
 
     public Client getOwnerTicket() {

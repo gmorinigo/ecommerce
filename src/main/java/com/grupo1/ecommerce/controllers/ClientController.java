@@ -4,6 +4,7 @@ package com.grupo1.ecommerce.controllers;
 import com.grupo1.ecommerce.dtos.ClientDTO;
 import com.grupo1.ecommerce.models.Client;
 import com.grupo1.ecommerce.services.ClientService;
+import com.grupo1.ecommerce.services.ICarritoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -70,7 +71,7 @@ public class ClientController {
     }
 
     @PutMapping("/clients/update")
-    public ResponseEntity<Object> actulizar(
+    public ResponseEntity<Object> actualizar(
             @RequestParam String firstName, @RequestParam String lastName,
             @RequestParam String email, @RequestParam String password) {
 
@@ -78,13 +79,13 @@ public class ClientController {
             return new ResponseEntity<>("No existe cuenta", HttpStatus.FORBIDDEN);
         }
 
-        Client clienteActulizar = clientService.findByEmail(email);
+        Client clienteActualizar = clientService.findByEmail(email);
 
         if (firstName.isEmpty() && lastName.isEmpty() && password.isEmpty()) {
             return new ResponseEntity<>("Datos invalidos", HttpStatus.FORBIDDEN);
         }
 
-        clientService.updateClient(firstName, lastName, email, password, clienteActulizar);
+        clientService.updateClient(firstName, lastName, email, password, clienteActualizar);
 
         return new ResponseEntity<>(HttpStatus.CREATED);
     }

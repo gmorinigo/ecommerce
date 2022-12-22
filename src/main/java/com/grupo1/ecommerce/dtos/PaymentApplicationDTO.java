@@ -1,11 +1,9 @@
 package com.grupo1.ecommerce.dtos;
 
-public class TicketApplicationDTO {
-
-
+public class PaymentApplicationDTO {
     private double montoTotal;
-    private String dirreccion;
-    private String dirreccionNum;
+    private String direccion;
+    private String direccionNum;
     private String codigoPostal;
     private String ciudad;
     private String numTarjeta;
@@ -13,13 +11,21 @@ public class TicketApplicationDTO {
     private Integer anioVencimiento;
     private Integer mesVencimiento;
 
-    public TicketApplicationDTO() {
+    public PaymentApplicationDTO() {
     }
 
-    public TicketApplicationDTO(double montoTotal, String dirreccion, String dirreccionNum, String codigoPostal, String ciudad, String numTarjeta, Integer cvv, Integer anioVencimiento, Integer mesVencimiento) {
+    public PaymentApplicationDTO(double montoTotal
+            , String direccion
+            , String direccionNum
+            , String codigoPostal
+            , String ciudad
+            , String numTarjeta
+            , Integer cvv
+            , Integer anioVencimiento
+            , Integer mesVencimiento) {
         this.montoTotal = montoTotal;
-        this.dirreccion = dirreccion;
-        this.dirreccionNum = dirreccionNum;
+        this.direccion = direccion;
+        this.direccionNum = direccionNum;
         this.codigoPostal = codigoPostal;
         this.ciudad = ciudad;
         this.numTarjeta = numTarjeta;
@@ -37,20 +43,20 @@ public class TicketApplicationDTO {
         this.montoTotal = montoTotal;
     }
 
-    public String getDirreccion() {
-        return dirreccion;
+    public String getDireccion() {
+        return direccion;
     }
 
-    public void setDirreccion(String dirreccion) {
-        this.dirreccion = dirreccion;
+    public void setDireccion(String direccion) {
+        this.direccion = direccion;
     }
 
-    public String getDirreccionNum() {
-        return dirreccionNum;
+    public String getDireccionNum() {
+        return direccionNum;
     }
 
-    public void setDirreccionNum(String dirreccionNum) {
-        this.dirreccionNum = dirreccionNum;
+    public void setDireccionNum(String direccionNum) {
+        this.direccionNum = direccionNum;
     }
 
     public String getCodigoPostal() {

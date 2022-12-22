@@ -1,12 +1,10 @@
 package com.grupo1.ecommerce.services;
 
+import com.grupo1.ecommerce.dtos.PaymentApplicationDTO;
 import com.grupo1.ecommerce.dtos.TicketDTO;
 import com.grupo1.ecommerce.models.CarritoProducto;
 import com.grupo1.ecommerce.models.Client;
 import com.grupo1.ecommerce.models.Ticket;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
 
@@ -20,5 +18,5 @@ public interface TicketService {
 
     void addProdToTicket(Ticket ticket, CarritoProducto carritoProducto);
 
-    void save(Ticket ticket);
+    Ticket newTicket (PaymentApplicationDTO paymentApplicationDTO, Client loggedClient);
 }

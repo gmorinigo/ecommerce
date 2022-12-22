@@ -8,7 +8,7 @@ import javax.persistence.*;
 public class TicketProd {
 
     @Id
-    @GeneratedValue()
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @GenericGenerator(name = "native", strategy = "native")
     private Long id;
     private Integer cantidad;
