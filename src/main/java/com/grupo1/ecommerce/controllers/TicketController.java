@@ -74,7 +74,7 @@ public class TicketController {
         }
 
         Ticket newTicket = ticketService.newTicket(paymentApplicationDTO, clientAuth);
-        if (newTicket == null) {
+        if (newTicket.getCiudad() == null) {
             return new ResponseEntity<>("Check payment method", HttpStatus.FORBIDDEN);
         }
 

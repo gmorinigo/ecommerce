@@ -60,10 +60,10 @@ public class TicketServiceImpl implements TicketService {
                 ,paymentApplicationDTO.getAnioVencimiento()
                 ,paymentApplicationDTO.getMesVencimiento());
         ResponseEntity<Object> validatePaymentMethod =
-                restTemplate.postForEntity("https://homebanking-production-0187.up.railway.app//api/clients/validate/card"
+                restTemplate.postForEntity("https://homebanking-production-0187.up.railway.app/api/clients/validate/card"
                         , paymentMethod
                         , Object.class);
-        if (validatePaymentMethod.getStatusCode().equals(HttpStatus.OK)) {
+        if (validatePaymentMethod.getStatusCode().equals(HttpStatus.ACCEPTED)) {
             return ticketRepository.save(new Ticket(
                       loggedClient.getCarrito().getMontoTotal()
                     , paymentApplicationDTO.getDireccion()
