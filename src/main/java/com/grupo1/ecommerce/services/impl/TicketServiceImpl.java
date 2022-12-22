@@ -60,7 +60,7 @@ public class TicketServiceImpl implements TicketService {
                 ,paymentApplicationDTO.getAnioVencimiento()
                 ,paymentApplicationDTO.getMesVencimiento());
         ResponseEntity<Object> validatePaymentMethod =
-                restTemplate.postForEntity("http://localhost:8081/api/clients/validate/card"
+                restTemplate.postForEntity("http://homebanking-production-0187.up.railway.app/api/clients/validate/card"
                         , paymentMethod
                         , Object.class);
         if (validatePaymentMethod.getStatusCode().equals(HttpStatus.OK)) {

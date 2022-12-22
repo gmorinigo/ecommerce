@@ -36,12 +36,6 @@ public class TicketController {
     @Autowired
     JavaMailSender javaMailSender;
 
-    @Autowired
-    TicketRepository ticketProdRepository;
-
-    @Autowired
-    RestTemplate restTemplate;
-
     @GetMapping("/tickets")
     public List<TicketDTO> getTickets() {
         return ticketService.getTickets();
